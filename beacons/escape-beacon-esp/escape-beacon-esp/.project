@@ -34,22 +34,22 @@
 		<link>
 			<name>core/core</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/cores/esp8266</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/cores/esp8266</locationURI>
 		</link>
 		<link>
 			<name>core/variant</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/variants/generic</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/variants/generic</locationURI>
 		</link>
 		<link>
 			<name>libraries/ArduinoOTA</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/ArduinoOTA</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/ArduinoOTA</locationURI>
 		</link>
 		<link>
 			<name>libraries/DNSServer</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/DNSServer</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/DNSServer</locationURI>
 		</link>
 		<link>
 			<name>libraries/DoubleResetDetector</name>
@@ -59,32 +59,37 @@
 		<link>
 			<name>libraries/EEPROM</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/EEPROM</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/EEPROM</locationURI>
 		</link>
 		<link>
 			<name>libraries/ESP8266HTTPClient</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266HTTPClient</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/ESP8266HTTPClient</locationURI>
 		</link>
 		<link>
 			<name>libraries/ESP8266HTTPUpdateServer</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266HTTPUpdateServer</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/ESP8266HTTPUpdateServer</locationURI>
 		</link>
 		<link>
 			<name>libraries/ESP8266WebServer</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266WebServer</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/ESP8266WebServer</locationURI>
 		</link>
 		<link>
 			<name>libraries/ESP8266WiFi</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266WiFi</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/ESP8266WiFi</locationURI>
 		</link>
 		<link>
 			<name>libraries/ESP8266mDNS</name>
 			<type>2</type>
-			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.0/libraries/ESP8266mDNS</locationURI>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/ESP8266mDNS</locationURI>
+		</link>
+		<link>
+			<name>libraries/esp8266</name>
+			<type>2</type>
+			<locationURI>ECLIPSE_HOME/arduinoPlugin/packages/esp8266/hardware/esp8266/2.5.2/libraries/esp8266</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -1,2 +1,2 @@
 spec.o: \
- D:/PROJECTS/escaspe/beacons/escape-beacon-esp/.metadata/.plugins/org.eclipse.cdt.managedbuilder.core/spec.C
+ D:/PROJECTS/escape/beacons/escape-beacon-esp/.metadata/.plugins/org.eclipse.cdt.managedbuilder.core/spec.C

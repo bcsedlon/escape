@@ -1,6 +1,6 @@
 #include "Arduino.h"
 
-const char* www_username = "ESCAPE";
+const char* www_username = "ESCAPE.NOW";
 char www_password[32];
 char wifi_ssid[32];
 char wifi_password[32];
@@ -163,6 +163,20 @@ bool handleFileDelete(String path) {
 	return false;
 }
 
+void redirectToCaptivePortal() {
+	String location = "http://";
+	//location += AP_ADDRESS;
+	location += wifi_ssid;
+	location += "/";
+
+	String message = "<html><head><title>302</title></head><body><a href=\"" + location + "\">CONTINUE HERE</a></body></html>";
+	httpServer.sendHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+	httpServer.sendHeader("Pragma", "no-cache");
+	httpServer.sendHeader("Expires", "-1");
+	httpServer.sendHeader("Location", location);
+	httpServer.send(302, "text/html", message);
+}
+
 void saveApi() {
 	EEPROM.put(4, mode);
 
@@ -208,9 +222,8 @@ void setup() {
 #else
 	Serial.begin(9600);
 #endif
+	Serial.println("\n\nESCAPE");
 
-	//Serial.print("\n\n");
-	Serial.println(www_username);
 
 	if (!SPIFFS.begin()) {
 		//Serial.println("SPIFFS Error");
@@ -247,11 +260,14 @@ void setup() {
 		strcpy(wifi_ssid, www_username);
 		strcpy(wifi_password, www_username);
 		mode = 0;
-		strcpy(user_data, www_username);
+		strcpy(user_data, "sos");
 		user_int = 60;
 		user_stations = 0;
 		saveApi();
 	}
+
+	Serial.println(www_username);
+	Serial.println(www_password);
 
 	ledSender.setup();
 	ledSender.setMessage(user_data);
@@ -319,9 +335,13 @@ void setup() {
 	}
 	else {
 		Serial.println(F("START AP"));
+		Serial.println(wifi_ssid);
+		Serial.println(wifi_password);
+
 		deviceIP = IPAddress(192, 168, 4, 1);
 		WiFi.mode(WIFI_AP);
 		WiFi.softAPConfig(deviceIP, deviceIP, IPAddress(0, 0, 0, 0));
+		//WiFi.softAPConfig(deviceIP, deviceIP, IPAddress(255, 255, 255, 0));
 
 		if(wifi_password[0])
 			WiFi.softAP(wifi_ssid, wifi_password);
@@ -339,12 +359,15 @@ void setup() {
 	Serial.println(F("READY"));
 	WiFi.printDiag(Serial);
 
+	httpServer.onNotFound(redirectToCaptivePortal);
+
 	httpServer.on("/", []() {
 		Serial.println("/");
 #ifdef HTTP_AUTH
 		//if(!httpServer.authenticate(www_username, www_password))
 		//return httpServer.requestAuthentication();
 #endif
+
 		if(mode != MODE_MORSE) {
 			if(WiFi.softAPgetStationNum() < user_stations) {
 				String message = String(WiFi.softAPgetStationNum());
@@ -661,8 +684,8 @@ void loop() {
 	//while(1) {};
 
 	//ArduinoOTA.handle();
-	httpServer.handleClient();
 	dnsServer.processNextRequest();
+	httpServer.handleClient();
 
 #ifdef INPUT0_PIN
 
