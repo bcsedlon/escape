@@ -11,6 +11,7 @@ unsigned long lastMillis;
 
 #define MODE_MORSE			1
 #define MODE_HTTP			2
+#define MODE_SSID			4
 int mode;
 
 //#define INPUT0_PIN 			3	//RX //5 //1 //TX
@@ -493,7 +494,7 @@ void setup() {
 		message += user_stations;
 		message += "><hr>";
 
-		message += "MORSE TEXT<br><input name=u_d value=";
+		message += "MORSE TEXT<br><input name=u_d value=\"";
 
 		String htmlString = user_data;
 		htmlString.replace("&", "&amp;");
@@ -501,7 +502,7 @@ void setup() {
 		htmlString.replace(">", "&gt;");
 		message += htmlString;
 
-		message += "><br><br>";
+		message += "\"><br><br>";
 		message += "INTERVAL<br><input name=u_i value=";
 		message += user_int;
 		message += "><hr>";
@@ -516,6 +517,7 @@ void setup() {
 		message += "0: MORSE HTTP<br>";
 		message += "1: MORSE<br>";
 		message += "2: HTTP<br>";
+		message += "4: WIFI SSID CHANGE<br>";
 		message += "<hr>";
 
 
@@ -649,8 +651,17 @@ void drawNextFrame(OLEDDisplay *display) {
 /////////////////////////////////////
 // loop
 /////////////////////////////////////
-int i;
+int iWiFiSSID = 0;
+uint8_t iWiFiSSIDUserStations = 0;
+unsigned long lastWiFiSSIDMillis;
+char lastWiFiSSID[32];
+
 void loop() {
+
+	if(max(iWiFiSSIDUserStations, WiFi.softAPgetStationNum()) != iWiFiSSIDUserStations) {
+		lastWiFiSSIDMillis = 0;
+		iWiFiSSIDUserStations = max(iWiFiSSIDUserStations, WiFi.softAPgetStationNum());
+	}
 
 	if(mode < 2) {
 		if(!ledSender.continueSending()) {
@@ -669,13 +680,67 @@ void loop() {
 			//}
 		}
 	}
-	else if(mode == 2) {
+	else if(mode >= 2) {
 		//digitalWrite(OUTPUT0_PIN, true);
 		if(millis() - lastStartMorseSendingMillis > (unsigned long)user_int / (WiFi.softAPgetStationNum() + 1)) {
 			digitalWrite(OUTPUT0_PIN, !digitalRead(OUTPUT0_PIN));
 			lastStartMorseSendingMillis = millis();
 		}
 	}
+
+	if(mode == 4) {
+		if(millis() - lastWiFiSSIDMillis > max((unsigned long)user_int, 20000UL)) {
+			lastWiFiSSIDMillis = millis();
+
+
+			//WiFi.softAPgetStationNum() < userStations
+			if(user_stations)
+				iWiFiSSID = iWiFiSSIDUserStations;
+			else
+				iWiFiSSID++;
+
+			char s[32];
+			strncpy(s, user_data, sizeof(user_data));
+			String tempWiFiSSID = String(s);
+			char *pch, *lastpch;
+			pch = strtok (s," ");
+			lastpch = pch;
+			int i = 1;
+			while (pch != NULL && i < iWiFiSSID) {
+			    i++;
+			    lastpch = pch;
+			    pch = strtok (NULL, " ");
+			}
+			if(pch == NULL) {
+				iWiFiSSID = 0;
+				if(user_stations && lastpch)
+					pch = lastpch;
+				else
+					pch = wifi_ssid;
+			}
+
+			strncpy(s, pch, 32);
+			for(i = strlen(s); i < 31; i++) {
+				s[i] = ' ';
+			}
+			s[31] = 0;
+
+			if(strncmp(lastWiFiSSID, s, 32)) {
+				strncpy(lastWiFiSSID, s, sizeof(user_data));
+				Serial.println(s);
+				//esp_wifi_deinit();
+				//esp_wifi_stop();
+				WiFi.disconnect();
+				//WiFi.mode(WIFI_OFF);
+				if(wifi_password[0])
+					WiFi.softAP(s, wifi_password);
+				else
+					WiFi.softAP(s);
+			}
+		}
+	}
+
+
 
 	drd.loop();
 
